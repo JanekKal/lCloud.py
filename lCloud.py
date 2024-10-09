@@ -4,7 +4,14 @@ import os
 import sys
 from botocore.exceptions import NoCredentialsError, ClientError
 
+# s3 = boto3.client(
+#     's3',
+#     aws_access_key_id='XXX',
+#     aws_secret_access_key='XXX'
+# )
 
+# BUCKET_NAME = 'XXX'
+# PREFIX = 'XXX/' #remember to add -> / <- character after specyfing the Prefix
 
 #command list
 def list_files():
