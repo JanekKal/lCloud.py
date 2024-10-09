@@ -29,6 +29,18 @@ def upload_file(local_file_path, s3_file_name):
     except ClientError as e:
         print(f"Error uploading file: {e}")
 
+def list_files_with_filter(regex_pattern):
+    try:
+        response = s3.list_objects_v2(Bucket=BUCKET_NAME, Prefix=PREFIX)
+        if 'Contents' in response:
+            for obj in response['Contents']:
+                if re.match(regex_pattern, obj['Key']):
+                    print(obj['Key'])
+        else:
+            print("No files found.")
+    except ClientError as e:
+        print(f"Error fetching files: {e}")
+
 
 def main():
     if len(sys.argv) < 2:
@@ -43,6 +55,9 @@ def main():
         local_file_path = sys.argv[2]
         s3_file_name = sys.argv[3]
         upload_file(local_file_path, s3_file_name)
+    elif command == "list-filter" and len(sys.argv) == 3:
+        regex_pattern = sys.argv[2]
+        list_files_with_filter(regex_pattern)
     else:
         print("Invalid command or arguments. Available commands: list, upload, list-filter, delete-filter")
 
